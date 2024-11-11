@@ -21,16 +21,22 @@ import tr.edu.trakya.stateexample.viewmodel.StateTestViewModel
 fun StateTestScreen(viewModel: StateTestViewModel){
     
     val name by viewModel.name.observeAsState(initial = "")
-    
+    val surName by viewModel.surName.observeAsState(initial = "")
+
+
+
     Log.d("StateTextScreen","StateTextScreen")
     Column (
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ){
-        MyText(name)
+        MyText("$name $surName")
         MyTextField(name, onNameChanged = {
             viewModel.onNameUpdate(it)
+        })
+        MyTextField(surName, onNameChanged = {
+            viewModel.onSurNameUpdate(it)
         })
     }
 }
