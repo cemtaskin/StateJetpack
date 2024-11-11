@@ -10,11 +10,16 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
 fun StateTestScreen(){
+
+    val name =  rememberSaveable {
+        mutableStateOf("")
+    }
 
     Log.d("StateTextScreen","StateTextScreen")
     Column (
@@ -22,27 +27,25 @@ fun StateTestScreen(){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ){
-        MyText()
-        MyTextField()
+        MyText(name.value)
+        MyTextField(name.value, onNameChanged = {
+            name.value = it
+        })
     }
 }
 
 @Composable
-fun MyText(){
+fun MyText(name:String){
     Log.d("MyText","MyText")
-    Text(text = "Hello")
+    Text(text = "Hello $name")
 }
 
 @Composable
-fun MyTextField(){
-    val name =  remember {
-        mutableStateOf("")
-    }
-
+fun MyTextField(name:String,onNameChanged :(String)->Unit){
     TextField(
-        value =name.value,
+        value =name,
         onValueChange = {
-            name.value= it
+           onNameChanged(it)
         },
         modifier = Modifier.fillMaxWidth()
     )
